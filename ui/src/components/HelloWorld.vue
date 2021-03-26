@@ -2,7 +2,7 @@
   <div class="hello">
     <h1 style="color:#5556e4">{{ msg }}</h1>
     <img style="width: 300px; border-radius: 5%;margin-bottom: 20px"
-         :src="import('@/assets/icon.png')"
+         src="@/assets/icon.png"
          alt="Guark Icon" />
     <div>
       <button class="btn" @click="gcall()">Call Go Function!</button>
@@ -19,51 +19,54 @@
 </template>
 
 <script lang="ts">
+import '@/assets/icon.png'
 import { defineComponent } from 'vue'
+import { EnvObject } from 'guark'
 
 export default defineComponent({
   name: 'HelloWorld',
+
   props: {
     msg: String,
   },
 
   data() {
     return {
-      env: <any>{},
-    }
+      env: <EnvObject> {},
+    };
   },
 
   created() {
-    g.env().then((env) => this.env = env)
+    this.$g.env().then((env: EnvObject) => this.env = env)
   },
 
   methods: {
     async gcall() {
-      const helloData = await g.call('hello_world', { name: 'Guark working?' })
+      const helloData = await this.$g.call('hello_world', { name: 'Guark working?' })
       console.log(`hello_world call return data: ${helloData}`)
     },
 
     clipboardWrite() {
-      g.call('clipboard.write', { text: 'guark' }).then(() => {
-        g.call('notify.send', { message: 'Guark copied to your clipboard' })
+      this.$g.call('clipboard.write', { text: 'guark' }).then(() => {
+        this.$g.call('notify.send', { message: 'Guark copied to your clipboard' })
       })
     },
 
     error() {
-      g.call('dialog.error', { message: 'this is a error from js api! is this working?' })
+      this.$g.call('dialog.error', { message: 'this is a error from js api! is this working?' })
     },
 
     info() {
-      g.call('dialog.info', { message: 'this is an info from js api! is this working?' })
+      this.$g.call('dialog.info', { message: 'this is an info from js api! is this working?' })
     },
 
     notify() {
-      g.call('notify.send', { message: 'This is a notify test call from ui javascript api.' })
+      this.$g.call('notify.send', { message: 'This is a notify test call from ui javascript api.' })
     },
 
     select() {
-      g.call('dialog.file', { title: 'Select File For Guark APP!' }).then((res) => {
-        g.call('notify.send', { message: `File Selected: ${res}` })
+      this.$g.call('dialog.file', { title: 'Select File For Guark APP!' }).then((res: any) => {
+        this.$g.call('notify.send', { message: `File Selected: ${res}` })
       })
     },
   },
@@ -101,6 +104,6 @@ a {
   font-size: 15px;
   font-weight: 500;
   color: #FFF;
-  box-shadow: 0pt 1px 4px 1px rgba(85, 86, 228, 0.5);
+  box-shadow: 0 1px 4px 1px rgba(85, 86, 228, 0.5);
 }
 </style>

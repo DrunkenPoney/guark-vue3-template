@@ -1,27 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Hello World Guark Vue 3 + TypeScript Template!"/>
+  <HelloWorld msg="Hello World Guark Vue 3 + TypeScript Template!" />
 </template>
 
 <script lang="ts">
-import g from 'guark'
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue';
+import { defineComponent } from 'vue'
+import HelloWorld from '@/components/HelloWorld.vue'
+import { EnvObject } from 'guark'
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
   },
   created() {
-    g.env().then((env) => {
+    this.$g.env().then((env: EnvObject) => {
       // Disable right click menu on production, you can implement your own!
-      if (!!env.dev_mode) {
+      if (env.dev_mode) {
         document.addEventListener('contextmenu', (ev) => ev.preventDefault())
       }
     })
-  }
-});
+  },
+})
 </script>
 
 <style lang="scss">
